@@ -1,5 +1,6 @@
 const esl = require('esl');
 const uuid = require('uuid');
+const Driver = require('../driver');
 
 class EslDriver extends Driver {
 
@@ -29,7 +30,7 @@ class EslDriver extends Driver {
       const callId = uuid.v4();
       register(callId, socket);
       func(callId);
-    }));
+    });
 
     return eslServer;
 

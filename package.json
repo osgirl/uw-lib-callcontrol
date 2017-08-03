@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/utilitywarehouse/uw-callcontrol-lib/issues"
   },
-  "homepage": "https://github.com/utilitywarehouse/uw-callcontrol-lib#readme"
+  "homepage": "https://github.com/utilitywarehouse/uw-callcontrol-lib#readme",
+  "dependencies": {
+    "esl": "^5.4.0",
+    "uuid": "^3.1.0"
+  }
 }
