@@ -1,9 +1,14 @@
+const EventEmitter = require('events').EventEmitter;
 
-
-class CallServer {
+class CallServer extends EventEmitter {
 
   constructor(driver) {
+    super();
     this.driver = driver;
+
+    this.driver.on('call_end', (callId) => {
+      this.emit('call_end', callId);
+    })
   }
 
 	answerCall(callId) {

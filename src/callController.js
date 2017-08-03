@@ -5,6 +5,10 @@ class CallController extends EventEmitter {
 	constructor(server) {
 		super();
 		this.server = server;
+
+    this.server.on('call_end', (callId) => {
+      this.emit('call_end', callId);
+    })
 	}
 
 	handle(callId) {

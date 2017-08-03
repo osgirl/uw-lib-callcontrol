@@ -1,9 +1,9 @@
+const EventEmitter = require('events').EventEmitter;
 
+module.exports = class Driver extends EventEmitter {
 
-module.exports = class Driver {
-
-  registerCall(callId) {
-    throw new Error('Not implemented');
+  constructor() {
+    super();
   }
 
 	answerCall(callId) {

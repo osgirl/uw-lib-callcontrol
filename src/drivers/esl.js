@@ -27,8 +27,13 @@ class EslDriver extends Driver {
     }
 
     const eslServer = esl.server({all_events: true}, function () {
-      const socket = this;
       const callId = uuid.v4();
+      const socket = this;
+
+      socket.on('CHANNEL_HANGUP', (...args) => {
+	      this.emit('call_end', callId)
+      });
+
       register(callId, socket);
       func(callId);
     });
