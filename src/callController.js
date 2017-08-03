@@ -25,7 +25,7 @@ class CallController extends EventEmitter {
     return this.driver.holdCall(callId);
 	}
 
-	start(port) {
+	startServer(port) {
 		const server = this.driver.createServer(
       (call) => this.answerCall(call)
     );

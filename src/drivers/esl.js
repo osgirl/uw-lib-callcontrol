@@ -25,6 +25,9 @@ class EslDriver extends Driver {
     const register = (callId, socket) => {
       this.callRegistry.set(callId, socket);
     }
+    const unregister = (callId) => {
+      this.callRegistry.delete(callId);
+    };
     const emitEnd = (callId) => this.emit('call_end', callId);
 
     const eslServer = esl.server({all_events: true}, function () {
@@ -32,7 +35,7 @@ class EslDriver extends Driver {
       const socket = this;
 
       socket.on('CHANNEL_HANGUP', (...args) => {
-        this.callRegistry.delete(callId);
+        unregister(callId);
         emitEnd(callId);
       });
 
