@@ -5,6 +5,7 @@ const Driver = require('../driver');
 class EslDriver extends Driver {
 
   constructor() {
+    super();
     this.callRegistry = {};
   }
 
