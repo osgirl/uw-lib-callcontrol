@@ -1,0 +1,19 @@
+{
+  "name": "uw-lib-callcontrol",
+  "version": "1.0.0",
+  "description": "Call control driver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utilitywarehouse/uw-callcontrol-lib.git"
+  },
+  "author": "Denis Nikulin <denisnikulin@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/utilitywarehouse/uw-callcontrol-lib/issues"
+  },
+  "homepage": "https://github.com/utilitywarehouse/uw-callcontrol-lib#readme"
+}
