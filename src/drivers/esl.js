@@ -10,15 +10,15 @@ class EslDriver extends CallDriver {
   }
 
   answerCall(callId) {
-    return this.callRegistry[callId].command('answer');
+    return this.callRegistry.get(callId).command('answer');
   }
 
   bridgeCall(callId, address) {
-    return this.callRegistry[callId].api('conference ' + callId + '-${domain_name}++flags{moderator} dial sofia/gateway/partner/' + address)
+    return this.callRegistry.get(callId).api('conference ' + callId + '-${domain_name}++flags{moderator} dial sofia/gateway/partner/' + address)
   }
 
   holdCall(callId) {
-    return this.callRegistry[callId].execute('conference', callId + '-${domain_name}@video-mcu-stereo++flags{mintwo}')
+    return this.callRegistry.get(callId).execute('conference', callId + '-${domain_name}@video-mcu-stereo++flags{mintwo}')
   }
 
   createServer(callHandler) {
