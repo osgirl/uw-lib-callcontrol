@@ -7,7 +7,7 @@ class CallServer {
   }
 
 	answerCall(callId) {
-    return this.driver.answer(callId);
+    return this.driver.answerCall(callId);
   }
 
 	bridgeCall(callId, address) {

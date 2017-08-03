@@ -26,7 +26,7 @@ class EslDriver extends Driver {
       this.callRegistry[callId] = socket;
     }
 
-    const eslServer = esl.server({all_events: true}, () => {
+    const eslServer = esl.server({all_events: true}, function () {
       const socket = this;
       const callId = uuid.v4();
       register(callId, socket);
