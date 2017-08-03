@@ -19,7 +19,7 @@ class CallServer {
 	}
 
 	build(func) {
-    return this.driver.createServer(handler);
+    return this.driver.createServer(func);
 	}
 }
 
