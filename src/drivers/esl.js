@@ -6,7 +6,7 @@ class EslDriver extends Driver {
 
   constructor() {
     super();
-    this.callRegistry = {};
+    this.callRegistry = new Map();
   }
 
   answerCall(callId) {
@@ -23,7 +23,7 @@ class EslDriver extends Driver {
 
   createServer(func) {
     const register = (callId, socket) => {
-      this.callRegistry[callId] = socket;
+      this.callRegistry.set(callId, socket);
     }
     const emitEnd = (callId) => this.emit('call_end', callId);
 
@@ -32,6 +32,7 @@ class EslDriver extends Driver {
       const socket = this;
 
       socket.on('CHANNEL_HANGUP', (...args) => {
+        this.callRegistry.delete(callId);
         emitEnd(callId);
       });
 
