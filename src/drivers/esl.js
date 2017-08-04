@@ -1,32 +1,31 @@
 const esl = require('esl');
 const uuid = require('uuid');
-const CallDriver = require('../driver');
+const SocketDriver = require('./socket');
 
-class EslDriver extends CallDriver {
+class EslDriver extends SocketDriver {
 
   constructor() {
     super();
-    this.callRegistry = new Map();
   }
 
   answerCall(callId) {
-    return this.callRegistry.get(callId).command('answer');
+    return this._getSocket(callId).command('answer');
   }
 
   bridgeCall(callId, address) {
-    return this.callRegistry.get(callId).api('conference ' + callId + '-${domain_name}++flags{moderator} dial sofia/gateway/partner/' + address)
+    return this._getSocket(callId).api('conference ' + callId + '-${domain_name}++flags{moderator} dial sofia/gateway/partner/' + address)
   }
 
   holdCall(callId) {
-    return this.callRegistry.get(callId).execute('conference', callId + '-${domain_name}@video-mcu-stereo++flags{mintwo}')
+    return this._getSocket(callId).execute('conference', callId + '-${domain_name}@video-mcu-stereo++flags{mintwo}')
   }
 
   createServer(callHandler) {
     const register = (callId, socket) => {
-      this.callRegistry.set(callId, socket);
+      this._register(callId, socket);
     }
     const unregister = (callId) => {
-      this.callRegistry.delete(callId);
+      this._unregister(callId);
     };
     const emitEnd = (callId) => this.emit('call.ended', callId);
 

@@ -11,10 +11,10 @@ class CallServer extends EventEmitter {
     })
 	}
 
-	answerCall(callId) {
-		this.driver.answerCall(callId).then(() => {
-			this.emit('call.started', callId);
-		})
+	async answerCall(callId) {
+		await this.driver.answerCall(callId);
+		console.log('EMITTING')
+		this.emit('call.started', callId);
 	}
 
   bridgeCall(callId, address) {
