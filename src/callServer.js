@@ -1,19 +1,19 @@
 const EventEmitter = require('events').EventEmitter;
 
-class CallController extends EventEmitter {
+class CallServer extends EventEmitter {
 
 	constructor(driver) {
 		super();
 		this.driver = driver;
 
-    this.driver.on('call_end', (callId) => {
-      this.emit('call_end', callId);
+    this.driver.on('call.ended', (callId) => {
+      this.emit('call.ended', callId);
     })
 	}
 
 	answerCall(callId) {
 		this.driver.answerCall(callId).then(() => {
-			this.emit('call', callId);
+			this.emit('call.started', callId);
 		})
 	}
 
@@ -25,17 +25,17 @@ class CallController extends EventEmitter {
     return this.driver.holdCall(callId);
 	}
 
-	startServer(port) {
+	start(port) {
 		const server = this.driver.createServer(
       (call) => this.answerCall(call)
     );
 
 		return new Promise((resolve, reject) => {
-			server.on('listening', resolve)
-			server.on('error', reject)
-			server.listen(port)
+			server.on('listening', resolve);
+			server.on('error', reject);
+			server.listen(port);
 		});
 	}
 }
 
-module.exports = CallController;
+module.exports = CallServer;

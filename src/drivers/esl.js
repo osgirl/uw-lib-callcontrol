@@ -1,8 +1,8 @@
 const esl = require('esl');
 const uuid = require('uuid');
-const Driver = require('../driver');
+const CallDriver = require('../driver');
 
-class EslDriver extends Driver {
+class EslDriver extends CallDriver {
 
   constructor() {
     super();
@@ -21,14 +21,14 @@ class EslDriver extends Driver {
     return this.callRegistry[callId].execute('conference', callId + '-${domain_name}@video-mcu-stereo++flags{mintwo}')
   }
 
-  createServer(func) {
+  createServer(callHandler) {
     const register = (callId, socket) => {
       this.callRegistry.set(callId, socket);
     }
     const unregister = (callId) => {
       this.callRegistry.delete(callId);
     };
-    const emitEnd = (callId) => this.emit('call_end', callId);
+    const emitEnd = (callId) => this.emit('call.ended', callId);
 
     const eslServer = esl.server({all_events: true}, function () {
       const callId = uuid.v4();
@@ -40,11 +40,10 @@ class EslDriver extends Driver {
       });
 
       register(callId, socket);
-      func(callId);
+      callHandler(callId);
     });
 
     return eslServer;
-
   }
 
 }

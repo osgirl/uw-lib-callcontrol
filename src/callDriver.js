@@ -1,6 +1,6 @@
 const EventEmitter = require('events').EventEmitter;
 
-module.exports = class Driver extends EventEmitter {
+module.exports = class CallDriver extends EventEmitter {
 
   constructor() {
     super();
@@ -18,7 +18,7 @@ module.exports = class Driver extends EventEmitter {
 		throw new Error('Not implemented');
 	}
 
-  createServer(handler) {
+  createServer(callHandler) {
 		throw new Error('Not implemented');
   }
 

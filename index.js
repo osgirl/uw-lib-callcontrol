@@ -1,9 +1,11 @@
-const CallController = require('./src/CallController');
-const Driver = require('./src/Driver');
+const CallDriver = require('./src/CallDriver');
+const CallServer = require('./src/CallServer');
 const EslDriver = require('./src/drivers/esl');
+const EslServer = require('./src/servers/esl');
 
 module.exports = {
-  CallController,
-  Driver,
+  CallDriver,
+  CallServer,
   EslDriver,
-}
+  EslServer,
+};
