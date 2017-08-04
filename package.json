@@ -19,5 +19,8 @@
   "dependencies": {
     "esl": "^5.4.0",
     "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
   }
 }
