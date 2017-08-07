@@ -4,7 +4,8 @@
   "description": "Call control driver",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest tests/*",
+    "test-coverage": "jest tests/* --coverage"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "sinon-chai": "^2.12.0"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./tests/.bootstrap.js"
+    "setupTestFrameworkScriptFile": "./tests/.bootstrap.js",
+    "verbose": true
   }
 }

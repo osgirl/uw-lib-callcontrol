@@ -22,7 +22,7 @@ describe('MockSocketServer', () => {
     const socket = mockSocket();
 
     return callServer.answerCall(callId, {socket})
-      .then(() => socket.write.should.have.been.called);
+      .then(() => socket.write.should.have.been.calledWith('Answering 1\n'));
   })
 
   it('can answer call when socket already registered', () => {
@@ -31,7 +31,7 @@ describe('MockSocketServer', () => {
     callServer._registerSocket(callId, socket);
 
     return callServer.answerCall(callId, {})
-      .then(() => socket.write.should.have.been.called);
+      .then(() => socket.write.should.have.been.calledWith('Answering 2\n'));
   })
 
   it('can bridge call to address', () => {
@@ -40,7 +40,7 @@ describe('MockSocketServer', () => {
     callServer._registerSocket(callId, socket);
 
     return callServer.bridgeCall(callId, 'some/address/')
-      .then(() => socket.write.should.have.been.called);
+      .then(() => socket.write.should.have.been.calledWith('Bridging 3 to some/address/\n'));
   })
 
   it('can hold call', () => {
@@ -49,7 +49,7 @@ describe('MockSocketServer', () => {
     callServer._registerSocket(callId, socket);
 
     return callServer.holdCall(callId)
-      .then(() => socket.write.should.have.been.called);
+      .then(() => socket.write.should.have.been.calledWith('Holding 4\n'));
   })
 
   it('registers socket and answers call when call has started', () => {

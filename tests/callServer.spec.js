@@ -46,15 +46,20 @@ describe('CallServer', () => {
     serverCreatedByDriver.listen.should.have.been.calledWith(1234);
   })
 
-  it('answers call when it has started', async () => {
-    return callServer.start(1234)
-      .then(() => {
-        const callId = 1;
-        const socket = {};
-
-        driver.emit('call.started', {callId, socket});
-        callServer.answerCall.should.have.been.calledWith(callId, {callId, socket});
-
-      })
+  it('answers call when it has started', () => {
+      const callId = 1;
+      const socket = {};
+      
+      driver.emit('call.started', {callId, socket});
+      callServer.answerCall.should.have.been.calledWith(callId, {callId, socket});
   })
+
+  it('emits call.started event when the call has started!', (done) => {
+    const callId = 1;
+    const socket = {};
+
+    callServer.on('call.started', done);
+    driver.emit('call.started', ({callId, socket}));
+  })
+
 })
