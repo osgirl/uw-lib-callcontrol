@@ -52,4 +52,23 @@ describe('MockSocketDriver', () => {
     socketClient.connect(1235);
   })
 
+  it.only('emits call.ended event on the socket end', (done) => {
+    const server = callDriver.createServer();
+    const socketPort = 1234;
+    server.listen(socketPort);
+
+    const socketClient = createSocketClient();
+
+    callDriver.on('call.ended', () => {
+      server.close();
+      done();
+    });
+
+    socketClient.connect(socketPort);
+    socketClient.destroy();
+
+  })
+
+
+
 })
