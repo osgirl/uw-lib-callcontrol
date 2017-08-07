@@ -6,20 +6,8 @@ module.exports = class CallDriver extends EventEmitter {
     super();
   }
 
-	answerCall(callId) {
-		throw new Error('Not implemented');
-	}
-
-	bridgeCall(callId, address) {
-		throw new Error('Not implemented');
-	}
-
-	holdCall(callId) {
-		throw new Error('Not implemented');
-	}
-
   createServer(callHandler) {
-		throw new Error('Not implemented');
+    throw new Error('Not implemented');
   }
 
 };
