@@ -12,7 +12,12 @@ class MockSocketDriver extends CallDriver {
     return net.createServer((socket) => {
       const callId = uuid.v4();
 
+      socket.on('end', () => {
+        this.emit('call.ended', callId);
+      })
+
       this.emit('call.started', {callId, socket});
+
     });
   }
 

@@ -52,7 +52,7 @@ describe('MockSocketDriver', () => {
     socketClient.connect(1235);
   })
 
-  it.only('emits call.ended event on the socket end', (done) => {
+  it('emits call.ended event on the socket end', (done) => {
     const server = callDriver.createServer();
     const socketPort = 1234;
     server.listen(socketPort);
@@ -65,7 +65,7 @@ describe('MockSocketDriver', () => {
     });
 
     socketClient.connect(socketPort);
-    socketClient.destroy();
+    socketClient.end();
 
   })
 
