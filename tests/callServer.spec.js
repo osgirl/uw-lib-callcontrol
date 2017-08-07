@@ -54,21 +54,12 @@ describe('CallServer', () => {
       callServer.answerCall.should.have.been.calledWith(callId, {callId, socket});
   })
 
-  // it('emits call.started event when the call has started!', async () => {
-  //   let eventEmitted = false;
-  //   callServer.on('call.started', callId => {
-  //     eventEmitted = true;
-  //     console.log('CALL STARTED EMITTED BY SERVER');
-  //   })
-  //
-  //   return callServer.start(1234)
-  //     .then(() => {
-  //       const callId = 1;
-  //       const socket = {};
-  //
-  //       driver.emit('call.started', {callId, socket});
-  //       eventEmitted.should.be.true;
-  //     })
-  // })
+  it('emits call.started event when the call has started!', (done) => {
+    const callId = 1;
+    const socket = {};
+
+    callServer.on('call.started', done);
+    driver.emit('call.started', ({callId, socket}));
+  })
 
 })
