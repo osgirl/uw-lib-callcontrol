@@ -4,11 +4,11 @@ class CallServer extends EventEmitter {
 
   constructor(driver) {
     super();
-    this.driver = driver;
+    this._driver = driver;
 
-    this.driver.on('call.started', (args) => this._acceptCall(args));
+    this._driver.on('call.started', (args) => this._acceptCall(args));
 
-    this.driver.on('call.ended', (callId) => {
+    this._driver.on('call.ended', (callId) => {
       this.emit('call.ended', callId);
     })
   }
@@ -35,7 +35,7 @@ class CallServer extends EventEmitter {
   }
 
   start(port) {
-    const server = this.driver.createServer();
+    const server = this._driver.createServer();
 
     return new Promise((resolve, reject) => {
       server.on('listening', resolve);

@@ -1,63 +1,60 @@
-const net = require('net');
-const MockSocketDriver = require('../src/drivers/mockSocket');
 const CallDriver = require('../src/callDriver');
 const CallServer = require('../src/callServer');
 
-const mockCall = (serverPort) => {
-	const conn = new net.Socket();
-	const span = 1;//(Math.floor(Math.random() * (10000 - 5000)) + 5000) * 2;
+const mockServer = () => {
+  const stubbedServer = {
+    listen: (port) => {},
+    on: (eventName, func) => func()
+  };
 
-	conn.on('connect', () => {
-		setTimeout(() => {
-			conn.destroy();
-		}, span)
-	});
+  sinon.spy(stubbedServer, 'listen');
+  return stubbedServer;
+}
 
-	conn.on('error', (e) => {throw new Error('mock call error')});
-	conn.connect(serverPort);
+const mockCallDriver = (serverCreatedByDriver) => {
+  const stubbedDriver = new CallDriver();
 
-	return conn;
+  stubbedDriver.createServer = () => serverCreatedByDriver;
+  sinon.spy(stubbedDriver, 'createServer');
+
+  return stubbedDriver;
 };
 
 describe('CallServer', () => {
-	/** var CallServer **/
-	let server;
-	/** var CallDriver **/
-	let driver;
+  /** var CallServer **/
+  let callServer;
+  /** var CallDriver **/
+  let driver;
+  let serverCreatedByDriver;
 
-	beforeEach(() => {
-		driver = new MockSocketDriver();
-		server = new CallServer(driver);
-	})
+  beforeEach(() => {
+    serverCreatedByDriver = mockServer();
+    driver = mockCallDriver(serverCreatedByDriver);
+    callServer = new CallServer(driver);
 
-	// it('starts to listen and answer calls', () => {
-	// 	let eventEmitted = false;
-	//
-	// 	server.on('call.started', () => {
-	// 		eventEmitted = true;
-	//
-	// 		console.log('EVENT EMITTED');
-	// 	})
-	//
-	// 	return server.start(8082)
-	// 		.then(() => {
-	// 			mockCall(8082);
-	// 		})
-	// 		.then(() => {
-	// 			eventEmitted.should.be.false;
-	// 			console.log('HERE');
-	// 		});
-	// });
+    callServer.answerCall = (callId) => Promise.resolve();
+    callServer.holdCall = (callId) => Promise.resolve();
+    callServer.bridgeCall = (callId, address) => Promise.resolve();
 
-	it('starts to listen and answer calls', async() => {
-		server.on('call.started', () => {
-			console.log('EVENT EMITTED');
-		})
+    sinon.spy(callServer, 'answerCall');
+  })
 
-		await server.start(8082);
+  it('listens for calls on given port when started', async () => {
+    await callServer.start(1234);
 
-		mockCall(9999);
+    driver.createServer.should.have.been.called;
+    serverCreatedByDriver.listen.should.have.been.calledWith(1234);
+  })
 
-		console.log('END');
-	});
+  it('answers call when it has started', async () => {
+    return callServer.start(1234)
+      .then(() => {
+        const callId = 1;
+        const socket = {};
+
+        driver.emit('call.started', {callId, socket});
+        callServer.answerCall.should.have.been.calledWith(callId, {callId, socket});
+
+      })
+  })
 })

@@ -1,14 +1,14 @@
 const EslDriver = require('../drivers/esl');
 const SocketServer = require('./socket');
 
-module.export = class EslServer extends SocketServer {
+class EslServer extends SocketServer {
 
   constructor() {
     super(new EslDriver());
   }
 
   answerCall(callId, {socket}) {
-    const socket = socket || this._getSocket(callId);
+    socket = socket || this._getSocket(callId);
     return socket.command('answer');
   }
 
@@ -20,3 +20,5 @@ module.export = class EslServer extends SocketServer {
     return this._getSocket(callId).execute('conference', callId + '-${domain_name}@video-mcu-stereo++flags{mintwo}')
   }
 }
+
+module.exports = EslServer;

@@ -6,11 +6,11 @@ class SocketServer extends CallServer {
     super(driver);
     this._socketRegistry = new Map();
 
-    this.driver.on('call.started', ({callId, socket}) => {
+    this._driver.on('call.started', ({callId, socket}) => {
       this._registerSocket(callId, socket);
     });
 
-    this.driver.on('call.ended', (callId) => {
+    this._driver.on('call.ended', (callId) => {
       this._unregisterSocket(callId);
     });
   }
