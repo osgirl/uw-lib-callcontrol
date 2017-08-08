@@ -32,6 +32,9 @@ use CallServer.on(EVENT_NAME) in the code:
  TODO:
  - call.answered
 
+# Tests
+Tests can be found in the tests/ folder: `make test` or `make test-coverage`
+
 # Example usage
 ```
 const port = process.env.CALL_SERVER_PORT || 8082;

@@ -1,5 +1,5 @@
-const CallDriver = require('./src/CallDriver');
-const CallServer = require('./src/CallServer');
+const CallDriver = require('./src/callDriver');
+const CallServer = require('./src/callServer');
 const EslDriver = require('./src/drivers/esl');
 const MockSocketDriver = require('./src/drivers/mockSocket');
 const EslServer = require('./src/servers/esl');
