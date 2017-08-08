@@ -24,10 +24,28 @@ TODO:
  - say(text) - text to speech engine will pronounce the text into the voice channel.
 
 # Events
-CallServer.on()
+use CallServer.on(EVENT_NAME) in the code:
+
+ - call.started
+ - call.ended
+
+ TODO:
+ - call.answered
 
 # Example usage
+```
+const port = process.env.CALL_SERVER_PORT || 8082;
+eslServer.start(port);
 
+eslServer.on("call.started", async (callId) => {
+	await eslServer.holdCall(callId);
+	const call = new Call(callId);
+
+	eslServer.on('call.ended', (callId) => {
+			console.log('the call has ended: ', callId);
+	})
+});
+```
 
 # Ready examples
 Working example with ESL can be found here:
