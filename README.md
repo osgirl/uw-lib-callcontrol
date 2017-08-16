@@ -43,11 +43,12 @@ eslServer.start(port);
 eslServer.on("call.started", async (callId) => {
 	await eslServer.holdCall(callId);
 	const call = new Call(callId);
+})
 
-	eslServer.on('call.ended', (callId) => {
-			console.log('the call has ended: ', callId);
-	})
-});
+eslServer.on('call.ended', (callId) => {
+		console.log('the call has ended: ', callId);
+})
+
 ```
 
 # Ready examples

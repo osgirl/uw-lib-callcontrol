@@ -22,6 +22,11 @@ class MockSocketServer extends SocketServer {
     return Promise.resolve(socket.write(`Holding ${callId}\n`, "utf8"));
   }
 
+  terminateCall(callId) {
+    const socket = this._getSocket(callId);
+    return Promise.resolve(socket.end());
+  }
+
 }
 
 module.exports = MockSocketServer;

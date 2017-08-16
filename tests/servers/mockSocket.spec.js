@@ -3,8 +3,10 @@ const MockSocketServer = require('../../src/servers/mockSocket');
 const mockSocket = () => {
   stubbedSocket = {
     write: (text, encoding) => Promise.resolve(),
+    end: () => Promise.resolve(),
   };
   sinon.spy(stubbedSocket, 'write');
+  sinon.spy(stubbedSocket, 'end');
 
   return stubbedSocket;
 };
@@ -61,4 +63,14 @@ describe('MockSocketServer', () => {
     socket.write.should.have.been.called;
     callServer._getSocket(callId).should.equal(socket);
   })
+
+  it('can terminate call', () => {
+    callId = 6;
+    const socket = mockSocket();
+    callServer._registerSocket(callId, socket);
+
+    return callServer.terminateCall(callId)
+      .then(() => socket.end.should.have.been.called);
+  })
+
 })

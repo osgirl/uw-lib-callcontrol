@@ -34,6 +34,10 @@ class CallServer extends EventEmitter {
     throw new Error('Not implemented');
   }
 
+  terminateCall(callId) {
+    throw new Error('Not implemented');
+  }
+
   start(port) {
     const server = this._driver.createServer();
 

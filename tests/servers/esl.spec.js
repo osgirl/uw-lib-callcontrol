@@ -66,4 +66,14 @@ describe('EslServer', () => {
     socket.command.should.have.been.calledWith('answer');
     callServer._getSocket(callId).should.equal(socket);
   })
+
+  it('can terminate call', () => {
+    callId = 6;
+    const socket = mockEslSocket();
+    callServer._registerSocket(callId, socket);
+
+    return callServer.terminateCall(callId)
+      .then(() => socket.api.should.have.been.called);
+  })
+
 })
