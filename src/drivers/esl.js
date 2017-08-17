@@ -20,6 +20,10 @@ class EslDriver extends CallDriver {
         emitEnd(callId);
       });
 
+      socket.on('CHANNEL_ANSWER', (...args) => {
+        console.log('ANSWERING', callId);
+      });
+
       emitStart(callId, socket);
     });
   }

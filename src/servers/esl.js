@@ -17,11 +17,18 @@ class EslServer extends SocketServer {
   }
 
   bridgeCall(callId, address) {
-    return this._getSocket(callId).api('conference ' + callId + '++flags{moderator} dial sofia/gateway/partner/' + address)
+    console.log('DIALLING ELEPHANT');
+    this._getSocket(callId).event_json('CHANNEL_ANSWER');
+    this._getSocket(callId).filter('variable_conference', 'elephant');
+
+    return this._getSocket(callId).api('conference ' + callId + '++flags{moderator} dial {conference=elephant}sofia/gateway/partner/' + address)
   }
 
   terminateCall(callId) {
-    return this._getSocket(callId).api('conference ' + callId + ' hup all')
+    console.log('TERINATING ESL DIRECTLY:', callId);
+    this._getSocket(callId).event_json('CHANNEL_HANGUP');
+    this._getSocket(callId).filter('variable_conference_name',callId);
+    return this._getSocket(callId).execute('conference ' + callId + ' hup all')
   }
 
 }
