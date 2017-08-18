@@ -16,6 +16,10 @@ class MockSocketDriver extends CallDriver {
         this.emit('call.ended', callId);
       })
 
+      socket.on('call.bridged', () => {
+        this.emit('call.bridged', callId);
+      })
+
       this.emit('call.started', {callId, socket});
 
     });
