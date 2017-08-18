@@ -11,6 +11,11 @@ class CallServer extends EventEmitter {
     this._driver.on('call.ended', (callId) => {
       this.emit('call.ended', callId);
     })
+
+    this._driver.on('call.bridged', (callId) => {
+      this.emit('call.bridged', callId);
+    })
+
   }
 
   _acceptCall(args) {
