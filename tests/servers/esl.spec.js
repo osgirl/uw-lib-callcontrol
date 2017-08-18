@@ -4,7 +4,9 @@ const mockEslSocket = () => {
   stubbedSocket = {
     command: (command) => Promise.resolve(),
     api: (address) => Promise.resolve(),
-    execute: (what, details) => Promise.resolve()
+    execute: (what, details) => Promise.resolve(),
+    event_json: (what) => Promise.resolve(),
+    filter: (what, details) => Promise.resolve()
   };
 
   sinon.spy(stubbedSocket, 'command');
@@ -73,7 +75,7 @@ describe('EslServer', () => {
     callServer._registerSocket(callId, socket);
 
     return callServer.terminateCall(callId)
-      .then(() => socket.api.should.have.been.called);
+      .then(() => socket.execute.should.have.been.called);
   })
 
 })

@@ -62,7 +62,7 @@ describe('CallServer', () => {
     driver.emit('call.started', ({callId, socket}));
   })
 
-  it.only('emits call.bridge event when the call has been bridged!', (done) => {
+  it('emits call.bridge event when the call has been bridged!', (done) => {
     const callId = 1;
     const socket = {};
 

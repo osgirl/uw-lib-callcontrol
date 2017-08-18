@@ -4,6 +4,7 @@ const mockSocket = () => {
   stubbedSocket = {
     write: (text, encoding) => Promise.resolve(),
     end: () => Promise.resolve(),
+    emit: () => Promise.resolve()
   };
   sinon.spy(stubbedSocket, 'write');
   sinon.spy(stubbedSocket, 'end');
