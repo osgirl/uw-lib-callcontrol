@@ -14,7 +14,8 @@ class MockSocketServer extends SocketServer {
 
   bridgeCall(callId, address) {
     const socket = this._getSocket(callId);
-    return Promise.resolve(socket.write(`Bridging ${callId} to ${address}\n`, "utf8"));
+    return Promise.resolve(socket.write(`Bridging ${callId} to ${address}\n`, "utf8"))
+      .then(socket.emit('call.bridged'));
   }
 
   holdCall(callId) {

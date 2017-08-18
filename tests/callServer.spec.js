@@ -49,7 +49,7 @@ describe('CallServer', () => {
   it('answers call when it has started', () => {
       const callId = 1;
       const socket = {};
-      
+
       driver.emit('call.started', {callId, socket});
       callServer.answerCall.should.have.been.calledWith(callId, {callId, socket});
   })
@@ -60,6 +60,14 @@ describe('CallServer', () => {
 
     callServer.on('call.started', done);
     driver.emit('call.started', ({callId, socket}));
+  })
+
+  it.only('emits call.bridge event when the call has been bridged!', (done) => {
+    const callId = 1;
+    const socket = {};
+
+    callServer.on('call.bridged', done);
+    driver.emit('call.bridged', ({callId, socket}));
   })
 
 })
