@@ -67,7 +67,7 @@ describe('CallServer', () => {
     const socket = {};
 
     callServer.on('call.bridged', done);
-    driver.emit('call.bridged', ({callId, socket}));
+    driver.emit('call.bridged', (callId));
   })
 
 })
