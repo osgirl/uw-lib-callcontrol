@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/utilitywarehouse/uw-callcontrol-lib#readme",
   "dependencies": {
-    "esl": "^5.4.0",
+    "esl": "github:utilitywarehouse/esl",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
