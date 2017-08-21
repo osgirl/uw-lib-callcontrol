@@ -11,13 +11,18 @@ class EslDriver extends CallDriver {
   createServer() {
     const emitStart = (callId, socket) => this.emit('call.started', {callId, socket});
     const emitEnd = (callId) => this.emit('call.ended', callId);
+    const emitBridged = (callId) => this.emit('call.bridged', callId);
 
-    return esl.server({all_events: true}, function () {
+    return esl.server({all_events: false, all_calls: true}, function () {
       const callId = uuid.v4();
       const socket = this;
 
       socket.on('CHANNEL_HANGUP', (...args) => {
         emitEnd(callId);
+      });
+
+      socket.on('CHANNEL_ANSWER', (...args) => {
+        emitBridged(callId);
       });
 
       emitStart(callId, socket);

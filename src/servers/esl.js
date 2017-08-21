@@ -13,15 +13,18 @@ class EslServer extends SocketServer {
   }
 
   holdCall(callId) {
+    this._getSocket(callId).event_json('CHANNEL_HANGUP');
     return this._getSocket(callId).execute('conference', callId + '@video-mcu-stereo++flags{mintwo}')
   }
 
   bridgeCall(callId, address) {
-    return this._getSocket(callId).api('conference ' + callId + '++flags{moderator} dial sofia/gateway/partner/' + address)
+    this._getSocket(callId).event_json('CHANNEL_ANSWER');
+    this._getSocket(callId).filter('variable_conference', callId);
+    return this._getSocket(callId).api('conference ' + callId + '++flags{moderator} dial {conference=' + callId + '}sofia/gateway/partner/' + address)
   }
 
   terminateCall(callId) {
-    return this._getSocket(callId).api('conference ' + callId + ' hup all')
+    return this._getSocket(callId).execute('conference ' + callId + ' hup all')
   }
 
 }

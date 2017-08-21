@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/utilitywarehouse/uw-lib-callcontrol.svg?style=svg)](https://circleci.com/gh/utilitywarehouse/uw-lib-callcontrol)
+
 # uw-lib-callcontrol
 Library for simplifying voice calls usage in projects
 

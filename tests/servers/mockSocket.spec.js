@@ -4,9 +4,11 @@ const mockSocket = () => {
   stubbedSocket = {
     write: (text, encoding) => Promise.resolve(),
     end: () => Promise.resolve(),
+    emit: () => Promise.resolve()
   };
   sinon.spy(stubbedSocket, 'write');
   sinon.spy(stubbedSocket, 'end');
+  sinon.spy(stubbedSocket, 'emit');
 
   return stubbedSocket;
 };
@@ -42,7 +44,7 @@ describe('MockSocketServer', () => {
     callServer._registerSocket(callId, socket);
 
     return callServer.bridgeCall(callId, 'some/address/')
-      .then(() => socket.write.should.have.been.calledWith('Bridging 3 to some/address/\n'));
+      .then(() => socket.emit.should.have.been.calledWith('call.bridged'));
   })
 
   it('can hold call', () => {

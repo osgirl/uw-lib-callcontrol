@@ -47,19 +47,36 @@ describe('CallServer', () => {
   })
 
   it('answers call when it has started', () => {
-      const callId = 1;
+      const callId = 'C1';
       const socket = {};
-      
+
       driver.emit('call.started', {callId, socket});
-      callServer.answerCall.should.have.been.calledWith(callId, {callId, socket});
+
+      callServer.answerCall.should.have.been.calledWith('C1', { callId: 'C1', socket: {} });
   })
 
-  it('emits call.started event when the call has started!', (done) => {
-    const callId = 1;
+  it('emits call.started event when the call has started', (done) => {
+    const callId = 'C2';
     const socket = {};
 
-    callServer.on('call.started', done);
+    callServer.on('call.started', (callId) => {
+      callId.should.equal('C2');
+      done();
+    });
+
     driver.emit('call.started', ({callId, socket}));
+  })
+
+  it('emits call.bridged event when the call has been bridged', (done) => {
+    const callId = 'C3';
+    const socket = {};
+
+    callServer.on('call.bridged', (callId) => {
+      callId.should.equal('C3');
+      done();
+    });
+
+    driver.emit('call.bridged', callId);
   })
 
 })
