@@ -8,6 +8,7 @@ const mockSocket = () => {
   };
   sinon.spy(stubbedSocket, 'write');
   sinon.spy(stubbedSocket, 'end');
+  sinon.spy(stubbedSocket, 'emit');
 
   return stubbedSocket;
 };
@@ -42,9 +43,8 @@ describe('MockSocketServer', () => {
     const socket = mockSocket();
     callServer._registerSocket(callId, socket);
 
-    callServer.bridgeCall(callId, 'some/address/');
-
-    socket.write.should.have.been.calledWith('Bridging 3 to some/address/\n');
+    return callServer.bridgeCall(callId, 'some/address/')
+      .then(() => socket.emit.should.have.been.calledWith('call.bridged'));
   })
 
   it('can hold call', () => {
@@ -52,8 +52,8 @@ describe('MockSocketServer', () => {
     const socket = mockSocket();
     callServer._registerSocket(callId, socket);
 
-    callServer.holdCall(callId)
-    socket.write.should.have.been.calledWith('Holding 4\n');
+    return callServer.holdCall(callId)
+      .then(() => socket.write.should.have.been.calledWith('Holding 4\n'));
   })
 
   it('registers socket and answers call when call has started', () => {
@@ -71,8 +71,8 @@ describe('MockSocketServer', () => {
     const socket = mockSocket();
     callServer._registerSocket(callId, socket);
 
-    callServer.terminateCall(callId)
-    socket.end.should.have.been.called;
+    return callServer.terminateCall(callId)
+      .then(() => socket.end.should.have.been.called);
   })
 
 })
