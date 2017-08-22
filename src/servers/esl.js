@@ -14,6 +14,7 @@ class EslServer extends SocketServer {
 
   holdCall(callId) {
     this._getSocket(callId).event_json('CHANNEL_HANGUP');
+    this._getSocket(callId).filter('variable_conference_name', callId);
     return this._getSocket(callId).execute('conference', callId + '@video-mcu-stereo++flags{mintwo}')
   }
 
