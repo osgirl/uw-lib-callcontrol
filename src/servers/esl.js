@@ -20,7 +20,7 @@ class EslServer extends SocketServer {
   bridgeCall(callId, address) {
     this._getSocket(callId).event_json('CHANNEL_ANSWER');
     this._getSocket(callId).filter('variable_conference', callId);
-    return this._getSocket(callId).api('conference ' + callId + '++flags{moderator} dial {conference=' + callId + '}sofia/gateway/partner/' + address)
+    return this._getSocket(callId).bgapi('conference ' + callId + '++flags{moderator} dial {conference=' + callId + '}sofia/gateway/partner/' + address)
   }
 
   terminateCall(callId) {
