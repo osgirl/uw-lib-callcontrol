@@ -3,14 +3,14 @@ const EslServer = require('../../src/servers/esl');
 const mockEslSocket = () => {
   stubbedSocket = {
     command: (command) => Promise.resolve(),
-    api: (address) => Promise.resolve(),
+    bgapi: (address) => Promise.resolve(),
     execute: (what, details) => Promise.resolve(),
     event_json: (what) => Promise.resolve(),
     filter: (what, details) => Promise.resolve()
   };
 
   sinon.spy(stubbedSocket, 'command');
-  sinon.spy(stubbedSocket, 'api');
+  sinon.spy(stubbedSocket, 'bgapi');
   sinon.spy(stubbedSocket, 'execute');
 
   return stubbedSocket;
@@ -47,7 +47,7 @@ describe('EslServer', () => {
     callServer._registerSocket(callId, socket);
 
     return callServer.bridgeCall(callId, 'some/address/')
-      .then(() => socket.api.should.have.been.called);
+      .then(() => socket.bgapi.should.have.been.called);
   })
 
   it('can hold call', () => {
