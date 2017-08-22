@@ -4,7 +4,7 @@ install:
 	npm install
 
 test:
-	npm test
+	npm test --ci
 
 test-coverage:
 	npm test-coverage
