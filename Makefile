@@ -1,10 +1,10 @@
 export SHELL = /bin/bash
 
 install:
-	yarn
+	npm install
 
 test:
-	yarn test
+	npm test
 
 test-coverage:
-	yarn test-coverage
+	npm test-coverage
