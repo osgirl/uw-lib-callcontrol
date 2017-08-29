@@ -1,61 +1,62 @@
 [![CircleCI](https://circleci.com/gh/utilitywarehouse/uw-lib-callcontrol.svg?style=svg)](https://circleci.com/gh/utilitywarehouse/uw-lib-callcontrol)
 
 # uw-lib-callcontrol
-Library for simplifying voice calls usage in projects
+Voice call servers
 
 # Purpose
-The library brings simplicity to development telephony related applications in node.js.
-You can use CallServer() and one of two supported drivers: ESL and Socket.
+The library simplifies the development of telephony related applications in node.js by abstracting a CallServer.  
+Additionally, it abstracts a socket CallServer.
 
-# ESL (Freeswitch Event Socket Library)
-ESL driver implements Freeswitch Socket Outbound protocol to manage Freeswitch PBX: https://freeswitch.org/confluence/display/FREESWITCH/Event+Socket+Outbound
+It also provides some concrete implementations of the CallServer --- currently, two: ESL and MockSocket.
 
-# Socket
-A call can be represented as a web socket, and it  lets the developer have environment without need to have the actual media server in place.
+# ESL (FreeSWITCH Event Socket Library) CallServer
+ESL CallServer implements FreeSWITCH Socket Outbound protocol to manage FreeSWITCH PBX: 
+https://freeswitch.org/confluence/display/FREESWITCH/Event+Socket+Outbound
+
+# MockSocket CallServer
+Provides the developer with an environment, where a call is represented as a web socket, without the need for an actual 
+media server in place.
 
 # Supported methods
-The CallServer performs the following:
- - start(_port_) - start the server listening on the _port_,
- - answerCall(callId) - answers the incoming call request for further processing,
- - holdCall(callId) - puts the call on hold until the next instructions appear,
- - bridgeCall(callId, _address_) - bridges the existing call with remote destination _address_,
+A CallServer can perform the following:
+
+ - `start(port)` --- starts listening on the _port_,
+ - `answerCall(callId, additionalArgs)` --- answers the incoming call request for further processing,
+ - `holdCall(callId)` --- puts the call on hold until next instructions appear,
+ - `bridgeCall(callId, address)` --- bridges the existing call with remote destination _address_,
+ - `terminateCall(callId)` --- terminates the active call,
 
 TODO:
- - hangupCall(callId) - terminates the active call,
- - transfer(callId, address) - forward active call to another destination,
- - say(text) - text to speech engine will pronounce the text into the voice channel.
+ - `transferCall(callId, address)` --- forwards the active call to another destination,
+ - `say(text)` --- pronounces the text into the voice channel.
 
 # Events
-use CallServer.on(EVENT_NAME) in the code:
+CallServer emits the following events with the value of call ID:
 
- - call.started
- - call.ended
+ - `call.started` --- on an incoming call; the CallServer automatically answers that call, prior to emitting the event;
+ - `call.bridged` --- when the call has been bridged to a remote destination;
+ - `call.ended` --- when the call has been terminated.
 
- TODO:
- - call.answered
+Use `CallServer.on(EVENT_NAME, (callId) => { /* what to do */ })` to listen for an event and act whenever it occurs.
 
 # Tests
-Tests can be found in the tests/ folder: `make test` or `make test-coverage`
+Tests can be found in the tests/ folder: `make test` or `make test-coverage` to run them.
 
 # Example usage
 ```
-const port = process.env.CALL_SERVER_PORT || 8082;
-eslServer.start(port);
+const callServer = new EslServer();   
 
-eslServer.on("call.started", async (callId) => {
-	await eslServer.holdCall(callId);
-	const call = new Call(callId);
-})
+callServer.start(8082);   
 
-eslServer.on('call.ended', (callId) => {
-		console.log('the call has ended: ', callId);
-})
-
+callServer.on('call.started', async (callId) => {
+  log('Call started:', callId);
+  await callServer.holdCall(callId);
+});   
 ```
 
 # Ready examples
-Working example with ESL can be found here:
-https://github.com/utilitywarehouse/uw-callqueue-framework/blob/poc-with-lib-callcontrol/examples/eslServer.js
+A working example with the ESL CallServer can be found here:
+https://github.com/utilitywarehouse/uw-callqueue-framework/blob/master/examples/eslExample.js
 
-Working example with Sockets can be found here:
-https://github.com/utilitywarehouse/uw-callqueue-framework/blob/poc-with-lib-callcontrol/examples/sockets.js
+A working example with the MockSocket CallServer can be found here:
+https://github.com/utilitywarehouse/uw-callqueue-framework/blob/master/examples/mockSocketExample.js

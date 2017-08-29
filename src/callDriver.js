@@ -6,7 +6,7 @@ module.exports = class CallDriver extends EventEmitter {
     super();
   }
 
-  createServer(callHandler) {
+  createServer() {
     throw new Error('Not implemented');
   }
 
