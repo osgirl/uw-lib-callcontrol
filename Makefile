@@ -7,4 +7,4 @@ test:
 	npm test --ci
 
 test-coverage:
-	npm test-coverage
+	npm run test-coverage
