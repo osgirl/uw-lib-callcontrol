@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/utilitywarehouse/uw-callcontrol-lib.git"
   },
-  "author": "Denis Nikulin <denisnikulin@gmail.com>",
-  "license": "ISC",
+  "author": "web-systems@utilitywarehouse.co.uk",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/utilitywarehouse/uw-callcontrol-lib/issues"
   },
