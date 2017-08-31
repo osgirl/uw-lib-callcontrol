@@ -53,10 +53,3 @@ callServer.on('call.started', async (callId) => {
   await callServer.holdCall(callId);
 });   
 ```
-
-# Ready examples
-A working example with the ESL CallServer can be found here:
-https://github.com/utilitywarehouse/uw-callqueue-framework/blob/master/examples/eslExample.js
-
-A working example with the MockSocket CallServer can be found here:
-https://github.com/utilitywarehouse/uw-callqueue-framework/blob/master/examples/mockSocketExample.js
